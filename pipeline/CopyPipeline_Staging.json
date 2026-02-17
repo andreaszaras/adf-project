@@ -14,60 +14,16 @@
 					},
 					"activities": [
 						{
-							"name": "Copy_974",
-							"type": "Copy",
+							"name": "CopyPipeline_Staging",
+							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
 								"secureInput": false
 							},
-							"userProperties": [
-								{
-									"name": "Source",
-									"value": "SalesLT.@{item().source.table}"
-								},
-								{
-									"name": "Destination",
-									"value": "staging.@{item().destination.table}"
-								}
-							],
+							"userProperties": [],
 							"typeProperties": {
-								"source": {
-									"type": "AzureSqlSource",
-									"partitionOption": "None"
-								},
-								"sink": {
-									"type": "AzureSqlSink",
-									"tableOption": "autoCreate"
-								},
-								"enableStaging": false,
-								"validateDataConsistency": false,
-								"translator": {
-									"value": "@item().copyActivity.translator",
-									"type": "Expression"
-								}
-							},
-							"inputs": [
-								{
-									"referenceName": "SourceDataset_974",
-									"type": "DatasetReference",
-									"parameters": {
-										"cw_table": "@item().source.table"
-									}
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "DestinationDataset_974",
-									"type": "DatasetReference",
-									"parameters": {
-										"cw_table": "@item().destination.table"
-									}
-								}
-							]
+								"waitOnCompletion": true
+							}
 						}
 					]
 				}
