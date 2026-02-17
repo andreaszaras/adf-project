@@ -16,7 +16,7 @@
 		"typeProperties": {
 			"schema": "staging",
 			"table": {
-				"value": "@dataset().cw_table",
+				"value": "df_jointest",
 				"type": "Expression"
 			}
 		}
