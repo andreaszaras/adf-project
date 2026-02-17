@@ -1,0 +1,9 @@
+{
+	"name": "Andreas-ADF",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "62e3e899-cdfd-43e0-8738-4023a45ca9d1",
+		"tenantId": "ad5ba4a2-7857-4ea1-895e-b3d5207a174f"
+	}
+}
