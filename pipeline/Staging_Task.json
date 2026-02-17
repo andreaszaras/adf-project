@@ -107,6 +107,39 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Customer_Dim",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Staging",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "AW",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "IF OBJECT_ID('dw.DimCustomer', 'U') IS NULL\nBEGIN\n    CREATE TABLE dw.DimCustomer\n    (\n        CustomerKey INT IDENTITY(1,1) PRIMARY KEY,  \n        CustomerID INT NOT NULL,\n        FirstName NVARCHAR(50),\n        LastName NVARCHAR(50),\n        CompanyName NVARCHAR(128),\n        EmailAddress NVARCHAR(50),\n        Phone NVARCHAR(25),\n        SalesPerson NVARCHAR(256)\n    );\nEND\nELSE\nBEGIN\n    TRUNCATE TABLE dw.DimCustomer;\nEND;"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"parameters": {
