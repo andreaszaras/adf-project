@@ -135,7 +135,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "IF OBJECT_ID('dw.DimCustomer', 'U') IS NULL\nBEGIN\n    CREATE TABLE dw.DimCustomer\n    (\n        CustomerKey INT IDENTITY(1,1) PRIMARY KEY,  \n        CustomerID INT NOT NULL,\n        FirstName NVARCHAR(50),\n        LastName NVARCHAR(50),\n        CompanyName NVARCHAR(128),\n        EmailAddress NVARCHAR(50),\n        Phone NVARCHAR(25),\n        SalesPerson NVARCHAR(256)\n    );\nEND\nELSE\nBEGIN\n    TRUNCATE TABLE dw.DimCustomer;\nEND;"
+							"text": "TRUNCATE TABLE dw.DimCustomer;\nINSERT INTO dw.DimCustomer\n(\n    CustomerID,\n    Title,\n    FirstName,\n    LastName,\n    CompanyName,\n    EmailAddress,\n    Phone\n)\nSELECT\n    CustomerID,\n    Title,\n    FirstName,\n    LastName,\n    CompanyName,\n    EmailAddress,\n    Phone\nFROM staging.Customer"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
