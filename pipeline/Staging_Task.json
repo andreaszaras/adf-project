@@ -3,9 +3,16 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "ForEach_dg3",
+				"name": "Staging",
 				"type": "ForEach",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Truncate",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
@@ -14,7 +21,7 @@
 					},
 					"activities": [
 						{
-							"name": "Copy_dg3",
+							"name": "Staging_Copy",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -40,7 +47,11 @@
 									"partitionOption": "None"
 								},
 								"sink": {
-									"type": "AzureSqlSink"
+									"type": "AzureSqlSink",
+									"writeBehavior": "insert",
+									"sqlWriterUseTableLock": false,
+									"tableOption": "autoCreate",
+									"disableMetricsCollection": false
 								},
 								"enableStaging": false,
 								"validateDataConsistency": false,
@@ -69,6 +80,32 @@
 							]
 						}
 					]
+				}
+			},
+			{
+				"name": "Truncate",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "AW",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "DECLARE @SQL NVARCHAR(MAX) = ''\n\nSELECT @SQL = @SQL +\n'TRUNCATE TABLE staging.' + QUOTENAME(name) + ';' + CHAR(13)\nFROM sys.tables\nWHERE schema_id = SCHEMA_ID('staging')\n\nEXEC sp_executesql @SQL"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
