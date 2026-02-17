@@ -167,7 +167,8 @@
 				"typeProperties": {
 					"scripts": [
 						{
-							"type": "Query"
+							"type": "Query",
+							"text": "select * from staging.product"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
