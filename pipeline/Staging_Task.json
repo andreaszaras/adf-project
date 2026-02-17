@@ -143,6 +143,7 @@
 			},
 			{
 				"name": "Product_Dim",
+				"description": "TRUNCATE TABLE dw.DimProduct;\nINSERT INTO dw.DimProduct\n(\n    ProductID,\n    ProductName,\n    ProductNumber,\n    Color,\n    Size,\n    StandardCost,\n    ListPrice,\n    Weight,\n    ProductCategoryID,\n    CategoryName,\n    ParentCategoryName\n)\nSELECT\n    p.ProductID,\n    p.Name AS ProductName,\n    p.ProductNumber,\n    p.Color,\n    p.Size,\n    p.StandardCost,\n    p.ListPrice,\n    p.Weight,\n    pc.ProductCategoryID,\n    pc.Name AS CategoryName,\n    parent.Name AS ParentCategoryName\nFROM SalesLT.Product p\nLEFT JOIN SalesLT.ProductCategory pc\n    ON p.ProductCategoryID = pc.ProductCategoryID\nLEFT JOIN SalesLT.ProductCategory parent\n    ON pc.ParentProductCategoryID = parent.ProductCategoryID;",
 				"type": "Script",
 				"dependsOn": [
 					{
