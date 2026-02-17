@@ -1,5 +1,5 @@
 {
-	"name": "pipeline2",
+	"name": "join",
 	"properties": {
 		"activities": [
 			{
@@ -17,15 +17,38 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "JoinTables",
-						"type": "DataFlowReference",
-						"datasetParameters": {
-							"source1": {
-								"cw_table": "customer"
-							},
-							"source2": {
-								"cw_table": "address"
-							}
-						}
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Data flow1",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "JoinTables",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "sql",
+						"type": "DataFlowReference"
 					},
 					"compute": {
 						"coreCount": 8,

@@ -6,6 +6,7 @@
 				"name": "ForEach_974",
 				"type": "ForEach",
 				"dependsOn": [],
+				"userProperties": [],
 				"typeProperties": {
 					"items": {
 						"value": "@pipeline().parameters.cw_items",
@@ -42,6 +43,7 @@
 								"secureOutput": false,
 								"secureInput": false
 							},
+							"userProperties": [],
 							"typeProperties": {
 								"storedProcedureName": "[dbo].[usp_TruncateIfExists]",
 								"storedProcedureParameters": {
