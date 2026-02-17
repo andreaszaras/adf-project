@@ -13,7 +13,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "Customer",
+						"referenceName": "AzureSqlTable2",
 						"type": "DatasetReference"
 					},
 					"name": "source2"
