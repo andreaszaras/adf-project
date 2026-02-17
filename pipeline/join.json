@@ -27,8 +27,8 @@
 				}
 			},
 			{
-				"name": "Script1",
-				"type": "Script",
+				"name": "Copy data1",
+				"type": "Copy",
 				"dependsOn": [
 					{
 						"activity": "JoinTables",
@@ -45,19 +45,21 @@
 					"secureInput": false
 				},
 				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "AW",
-					"type": "LinkedServiceReference"
-				},
 				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": "select * from staging.ca"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select * from ca",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ca",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": []
