@@ -22,7 +22,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "TRUNCATE TABLE staging.fact_table;"
+							"text": "TRUNCATE TABLE staging.fact_test;"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
