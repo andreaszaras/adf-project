@@ -240,6 +240,39 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Fact_Table",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Staging",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "AW",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "TRUNCATE TABLE dw.FactSales;\n\nINSERT INTO dw.FactSales\n(\n    SalesOrderID,\n    SalesOrderDetailID,\n\n    OrderDateKey,\n    CustomerKey,\n    ProductKey,\n    ShipToAddressKey,\n    BillToAddressKey,\n\n    OrderQty,\n    UnitPrice,\n    UnitPriceDiscount,\n    LineTotal\n)\nSELECT\n    h.SalesOrderID,\n    d.SalesOrderDetailID,\n\n    CONVERT(int, CONVERT(char(8), h.OrderDate, 112)) AS OrderDateKey,\n\n    dc.CustomerKey,\n    dp.ProductKey,\n    daShip.AddressKey AS ShipToAddressKey,\n    daBill.AddressKey AS BillToAddressKey,\n\n    d.OrderQty,\n    d.UnitPrice,\n    d.UnitPriceDiscount,\n    d.LineTotal\nFROM staging.SalesOrderHeader h\nJOIN staging.SalesOrderDetail d\n    ON d.SalesOrderID = h.SalesOrderID\n\nJOIN dw.DimCustomer dc\n    ON dc.CustomerID = h.CustomerID\n\nJOIN dw.DimProduct dp\n    ON dp.ProductID = d.ProductID\n\nLEFT JOIN dw.DimAddress daShip\n    ON daShip.AddressID = h.ShipToAddressID\n\nLEFT JOIN dw.DimAddress daBill\n    ON daBill.AddressID = h.BillToAddressID;"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"parameters": {
